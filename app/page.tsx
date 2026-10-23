@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Matches from "./matches";
 
 const SKILL_RULES = [
   { skill: "Customer service", keywords: ["stall", "shop", "customer", "sell", "sold", "cashier"] },
@@ -129,6 +130,9 @@ export default function Home() {
             </ul>
           )}
         </section>
+      )}
+            {done && skills.length > 0 && (
+        <Matches skills={skills} verified={verified} />
       )}
     </main>
   );
