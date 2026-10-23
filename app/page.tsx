@@ -71,7 +71,7 @@ export default function Home() {
   }
 
   return (
-    <main className="page-enter min-h-screen bg-[#F7F8F5] text-[#14251D]">
+    <main className="app-shell page-enter min-h-screen bg-[#F7F8F5] text-[#14251D]">
       {/* Top navigation */}
       <header className="border-b border-[#E3E8E3] bg-[#F7F8F5]">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 lg:px-8">

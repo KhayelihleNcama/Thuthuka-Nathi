@@ -23,6 +23,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #cce9dc;
+  color: #14251d;
+}
+
+.app-shell {
+  background-image:
+    radial-gradient(ellipse at 5% 0%, rgb(0 128 94 / 7%), transparent 32rem),
+    radial-gradient(ellipse at 100% 35%, rgb(0 107 79 / 5%), transparent 28rem);
+}
+
+.app-shell textarea {
+  box-shadow: 0 1px 2px rgb(20 37 29 / 3%);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.app-shell textarea:focus {
+  box-shadow: 0 0 0 4px rgb(0 128 94 / 10%);
+}
+
+.app-shell button:not(:disabled) {
+  cursor: pointer;
 }
 
 .page-enter {
