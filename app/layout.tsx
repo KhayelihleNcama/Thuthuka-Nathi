@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title:  "Proof: your skills, verified",
-  description: "Turn informal experience into a verified skills profile.",
+  title: "Thuthuka Nathi | Interactive demo",
+  description: "Turn everyday experience into skills and discover your next step.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

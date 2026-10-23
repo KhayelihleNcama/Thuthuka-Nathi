@@ -23,12 +23,12 @@ Many young people have real skills they can't prove: tutoring neighbours' childr
 
 | Feature | Status |
 |---|---|
-| Story input and skills finder (keyword-based) | ✅ Working |
+| Story input and AI skills finder with keyword fallback | ✅ Working |
 | Ask someone to confirm (WhatsApp link) and Verified badge | ✅ Working (prototype, browser storage) |
 | Opportunity matching with match score | 🔨 In progress |
 | Cost-to-apply estimate | 🔨 In progress |
 | Skills-gap forecast | 📋 Planned |
-| AI skills translation (LLM) | 📋 Planned |
+| AI skills translation (Groq; keyword fallback when unavailable) | ✅ Working |
 | Shared database and real SMS/WhatsApp verification | 📋 Planned |
 | Voice input and isiZulu support | 📋 Planned |
 
