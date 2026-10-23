@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-// Each skill has keywords we look for in Thandi's story
 const SKILL_RULES = [
   { skill: "Customer service", keywords: ["stall", "shop", "customer", "sell", "sold", "cashier"] },
   { skill: "Cash handling", keywords: ["cash", "money", "change", "stall", "till", "cashier"] },
@@ -14,10 +13,32 @@ const SKILL_RULES = [
   { skill: "Communication", keywords: ["customer", "kids", "tutor", "explain", "talk"] },
 ];
 
+const STORAGE_KEY = "proof-verified";
+
 export default function Home() {
   const [story, setStory] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
   const [done, setDone] = useState(false);
+  const [verified, setVerified] = useState<string[]>([]);
+
+  // Load verified skills, and update live when the confirm page saves one
+  useEffect(() => {
+    function load() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        setVerified(saved ? JSON.parse(saved) : []);
+      } catch {
+        setVerified([]);
+      }
+    }
+    load();
+    window.addEventListener("storage", load);
+    window.addEventListener("focus", load);
+    return () => {
+      window.removeEventListener("storage", load);
+      window.removeEventListener("focus", load);
+    };
+  }, []);
 
   function findSkills() {
     const text = story.toLowerCase();
@@ -26,6 +47,15 @@ export default function Home() {
     ).map((rule) => rule.skill);
     setSkills(found);
     setDone(true);
+  }
+
+  function confirmLink(skill: string) {
+    return `${window.location.origin}/confirm?skill=${encodeURIComponent(skill)}`;
+  }
+
+  function askOnWhatsApp(skill: string) {
+    const message = `Hi! Can you confirm that I have this skill: ${skill}? Tap here: ${confirmLink(skill)}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
   }
 
   return (
@@ -60,15 +90,42 @@ export default function Home() {
               We could not find skills yet. Try adding more detail about what you did.
             </p>
           ) : (
-            <ul className="flex flex-wrap gap-2">
-              {skills.map((s) => (
-                <li
-                  key={s}
-                  className="rounded-full bg-teal-100 px-3 py-1 text-sm text-teal-900"
-                >
-                  {s}
-                </li>
-              ))}
+            <ul className="flex flex-col gap-3">
+              {skills.map((s) => {
+                const isVerified = verified.includes(s);
+                return (
+                  <li
+                    key={s}
+                    className="flex flex-col gap-2 rounded-lg border border-gray-400 p-3"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-medium">{s}</span>
+                      {isVerified && (
+                        <span className="rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white">
+                          ✓ Verified
+                        </span>
+                      )}
+                    </div>
+                    {!isVerified && (
+                      <div className="flex flex-wrap items-center gap-3 text-sm">
+                        <button
+                          onClick={() => askOnWhatsApp(s)}
+                          className="rounded-lg bg-teal-600 px-3 py-2 font-semibold text-white"
+                        >
+                          Ask someone to confirm
+                        </button>
+                        <a
+                          href={`/confirm?skill=${encodeURIComponent(s)}`}
+                          target="_blank"
+                          className="underline opacity-70"
+                        >
+                          Open link (demo)
+                        </a>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>
