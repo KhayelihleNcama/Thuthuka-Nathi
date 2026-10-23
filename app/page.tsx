@@ -4,16 +4,22 @@ import { useState } from "react";
 import SkillVerification from "./components/SkillVerification";
 import OpportunityMatches from "./components/OpportunityMatches";
 import IntelligenceSummary from "./components/IntelligenceSummary";
+import OpportunityDetail from "./components/OpportunityDetail";
+import { opportunities } from "./data/opportunities";
 
 export default function Home() {
   const [story, setStory] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+  const [selectedOpportunity, setSelectedOpportunity] = useState<number | null>(null);
   const [verifiedSkills, setVerifiedSkills] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [source, setSource] = useState<"ai" | "fallback" | null>(null);
   const [error, setError] = useState("");
+  const selectedOpportunityData = opportunities.find(
+    (opportunity) => opportunity.id === selectedOpportunity
+  );
 
   function handleVerified(skill: string) {
     setVerifiedSkills((current) =>
@@ -65,7 +71,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F7F8F5] text-[#14251D]">
+    <main className="page-enter min-h-screen bg-[#F7F8F5] text-[#14251D]">
       {/* Top navigation */}
       <header className="border-b border-[#E3E8E3] bg-[#F7F8F5]">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 lg:px-8">
@@ -109,7 +115,7 @@ export default function Home() {
             </p>
 
             {/* Story input */}
-            <div className="mt-9 rounded-[28px] border border-[#DDE5DF] bg-white p-2 shadow-[0_20px_60px_rgba(20,37,29,0.08)]">
+            <div className="reveal-delay-1 mt-9 rounded-[28px] border border-[#DDE5DF] bg-white p-2 shadow-[0_20px_60px_rgba(20,37,29,0.08)]">
               <div className="rounded-[22px] bg-[#FAFBFA] p-5 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -119,9 +125,6 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <div className="hidden h-10 w-10 items-center justify-center rounded-full bg-[#E5F3EE] text-[#007A59] sm:flex">
-                    ✦
-                  </div>
                 </div>
 
                 <textarea
@@ -175,12 +178,8 @@ export default function Home() {
                     "I helped my aunt at her stall. I served customers, counted the money and checked how much stock was left."
                   )
                 }
-                className="mt-4 flex w-full items-start gap-3 rounded-2xl border border-[#DDE5DF] bg-white p-4 text-left transition hover:border-[#AFCFC2] hover:shadow-sm"
+                className="reveal-delay-2 mt-4 flex w-full items-start gap-3 rounded-2xl border border-[#DDE5DF] bg-white p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-[#AFCFC2] hover:shadow-sm"
               >
-                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#E8F4EF] text-[#007A59]">
-                  ✦
-                </div>
-
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wide text-[#007A59]">
                     See how the demo works
@@ -196,7 +195,7 @@ export default function Home() {
           </section>
 
           {/* RIGHT / EXPLANATION */}
-          <aside className="lg:pt-16">
+          <aside className="reveal-delay-2 lg:pt-16">
             {!skills.length && !hasSearched ? (
               <div className="overflow-hidden rounded-[28px] border border-[#DDE5DF] bg-[#14251D] p-6 text-white shadow-[0_20px_60px_rgba(20,37,29,0.12)]">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#8ED6BE]">
@@ -333,6 +332,16 @@ export default function Home() {
                   <OpportunityMatches
                     skills={skills}
                     verifiedSkills={verifiedSkills}
+                    onSelectOpportunity={setSelectedOpportunity}
+                  />
+                )}
+
+                {selectedOpportunityData && (
+                  <OpportunityDetail
+                    opportunity={selectedOpportunityData}
+                    skills={skills}
+                    verifiedSkills={verifiedSkills}
+                    onClose={() => setSelectedOpportunity(null)}
                   />
                 )}
 

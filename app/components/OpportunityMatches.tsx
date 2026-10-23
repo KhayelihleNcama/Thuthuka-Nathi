@@ -5,11 +5,13 @@ import { opportunities } from "../data/opportunities";
 type OpportunityMatchesProps = {
   skills: string[];
   verifiedSkills: string[];
+  onSelectOpportunity: (id: number) => void;
 };
 
 export default function OpportunityMatches({
   skills,
   verifiedSkills,
+  onSelectOpportunity,
 }: OpportunityMatchesProps) {
   const matches = opportunities
     .map((opportunity) => {
@@ -86,7 +88,7 @@ export default function OpportunityMatches({
         {matches.map((opportunity) => (
           <article
             key={opportunity.id}
-            className="overflow-hidden rounded-[22px] border border-[#DCE8E0] bg-white shadow-[0_8px_24px_rgba(20,37,29,0.04)] transition hover:border-[#B9D5C7] hover:shadow-[0_12px_30px_rgba(20,37,29,0.08)]"
+            className="opportunity-card overflow-hidden rounded-[22px] border border-[#DCE8E0] bg-white shadow-[0_8px_24px_rgba(20,37,29,0.04)] transition duration-300 hover:-translate-y-1 hover:border-[#B9D5C7] hover:shadow-[0_12px_30px_rgba(20,37,29,0.08)]"
           >
             <div className="p-5 sm:p-6">
               <div className="flex items-start justify-between gap-4">
@@ -178,10 +180,8 @@ export default function OpportunityMatches({
                   </p>
                 </div>
                 <button
-                  className="rounded-xl bg-[#006B4F] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#005941] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#00805E]/20 sm:px-5"
-                  onClick={() =>
-                    alert(`Demo: ${opportunity.title} at ${opportunity.company}`)
-                  }
+                  className="rounded-xl bg-[#006B4F] px-4 py-3 text-sm font-bold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#005941] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#00805E]/20 active:translate-y-0 sm:px-5"
+                  onClick={() => onSelectOpportunity(opportunity.id)}
                 >
                   View demo opportunity <span aria-hidden="true">→</span>
                 </button>

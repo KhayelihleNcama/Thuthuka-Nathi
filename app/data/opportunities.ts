@@ -5,6 +5,8 @@ export type Opportunity = {
   location: string;
   type: string;
   pay: string;
+  transportCost: number;
+  dataCost: number;
   skills: string[];
   description: string;
 };
@@ -17,6 +19,8 @@ export const opportunities: Opportunity[] = [
     location: "Umlazi",
     type: "Part-time",
     pay: "R4,500/month",
+    transportCost: 20,
+    dataCost: 10,
     skills: [
       "Customer service",
       "Cash handling",
@@ -32,6 +36,8 @@ export const opportunities: Opportunity[] = [
     location: "Durban",
     type: "Entry-level",
     pay: "R5,500/month",
+    transportCost: 40,
+    dataCost: 10,
     skills: [
       "Communication",
       "Spreadsheets (Excel)",
@@ -47,6 +53,8 @@ export const opportunities: Opportunity[] = [
     location: "Umlazi",
     type: "Part-time",
     pay: "R3,500/month",
+    transportCost: 20,
+    dataCost: 10,
     skills: [
       "Teaching and mentoring",
       "Communication",
@@ -61,6 +69,8 @@ export const opportunities: Opportunity[] = [
     location: "Durban",
     type: "Entry-level",
     pay: "R5,000/month",
+    transportCost: 40,
+    dataCost: 10,
     skills: [
       "Stock counting",
       "Numeracy",
