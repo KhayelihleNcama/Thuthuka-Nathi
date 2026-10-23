@@ -53,6 +53,117 @@ body {
   cursor: pointer;
 }
 
+.app-shell {
+  transition:
+    background-color 240ms ease,
+    color 240ms ease;
+}
+
+.app-shell[data-theme="dark"] {
+  color-scheme: dark;
+  background-color: #101a15;
+  color: #e6efe9;
+  background-image:
+    radial-gradient(ellipse at 5% 0%, rgb(0 128 94 / 14%), transparent 32rem),
+    radial-gradient(ellipse at 100% 35%, rgb(0 107 79 / 9%), transparent 28rem);
+}
+
+.app-shell[data-theme="dark"] header,
+.app-shell[data-theme="dark"] [class*="bg-white"],
+.app-shell[data-theme="dark"] [class*="bg-[#F7F8F5]"],
+.app-shell[data-theme="dark"] [class*="bg-[#FAFBFA]"],
+.app-shell[data-theme="dark"] [class*="bg-[#F1F6F3]"],
+.app-shell[data-theme="dark"] [class*="bg-[#F2F4F2]"] {
+  background-color: #17241d;
+}
+
+.app-shell[data-theme="dark"] [class*="bg-[#E3F3ED]"],
+.app-shell[data-theme="dark"] [class*="bg-[#E5F3EE]"],
+.app-shell[data-theme="dark"] [class*="bg-[#E4F4EE]"],
+.app-shell[data-theme="dark"] [class*="bg-[#EAF5EF]"],
+.app-shell[data-theme="dark"] [class*="bg-[#EAF7F2]"],
+.app-shell[data-theme="dark"] [class*="bg-[#DDF2EA]"] {
+  background-color: #203a2e;
+}
+
+.app-shell[data-theme="dark"] [class*="bg-[#FBF7ED]"] {
+  background-color: #332d1e;
+}
+
+.app-shell[data-theme="dark"] [class*="bg-[#FFF1F0]"] {
+  background-color: #3a211f;
+}
+
+.app-shell[data-theme="dark"] [class*="text-[#"],
+.app-shell[data-theme="dark"] [class*="text-gray-"],
+.app-shell[data-theme="dark"] [class*="text-amber-"] {
+  color: #d4e1d9;
+}
+
+.app-shell[data-theme="dark"] [class*="text-[#006B4F]"],
+.app-shell[data-theme="dark"] [class*="text-[#007A59]"],
+.app-shell[data-theme="dark"] [class*="text-[#00805E]"],
+.app-shell[data-theme="dark"] [class*="text-green-700"],
+.app-shell[data-theme="dark"] [class*="text-green-800"] {
+  color: #8ed6b7;
+}
+
+.app-shell[data-theme="dark"] [class*="text-[#718078]"],
+.app-shell[data-theme="dark"] [class*="text-[#7A8780]"],
+.app-shell[data-theme="dark"] [class*="text-[#89958E]"],
+.app-shell[data-theme="dark"] [class*="text-[#607068]"],
+.app-shell[data-theme="dark"] [class*="text-[#64736B]"],
+.app-shell[data-theme="dark"] [class*="text-[#53625A]"],
+.app-shell[data-theme="dark"] [class*="text-gray-500"],
+.app-shell[data-theme="dark"] [class*="text-gray-600"],
+.app-shell[data-theme="dark"] [class*="text-gray-700"] {
+  color: #afc0b6;
+}
+
+.app-shell[data-theme="dark"] [class*="border-[#"],
+.app-shell[data-theme="dark"] [class*="border-gray-"] {
+  border-color: #304238;
+}
+
+.app-shell[data-theme="dark"] [class*="bg-green-50"] {
+  background-color: #203a2e;
+}
+
+.app-shell[data-theme="dark"] [class*="bg-gray-100"],
+.app-shell[data-theme="dark"] [class*="bg-gray-50"] {
+  background-color: #202e26;
+}
+
+.app-shell[data-theme="dark"] [class*="bg-amber-50"] {
+  background-color: #332d1e;
+}
+
+.app-shell[data-theme="dark"] [class*="text-green-900"] {
+  color: #d5f0e1;
+}
+
+.app-shell[data-theme="dark"] [class*="text-amber-900"],
+.app-shell[data-theme="dark"] [class*="text-amber-800"] {
+  color: #e6d6a9;
+}
+
+.app-shell[data-theme="dark"] textarea {
+  background-color: #111b16;
+  color: #e6efe9;
+}
+
+.app-shell[data-theme="dark"] textarea::placeholder {
+  color: #82958a;
+}
+
+.app-shell[data-theme="dark"] .modal-backdrop {
+  background-color: rgb(0 0 0 / 72%);
+}
+
+.app-shell[data-theme="dark"] .modal-panel {
+  background-color: #17241d;
+}
+
 .page-enter {
   animation: fade-up 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }

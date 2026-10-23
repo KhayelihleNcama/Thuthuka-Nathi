@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import SkillVerification from "./components/SkillVerification";
 import OpportunityMatches from "./components/OpportunityMatches";
 import IntelligenceSummary from "./components/IntelligenceSummary";
@@ -8,6 +8,7 @@ import OpportunityDetail from "./components/OpportunityDetail";
 import { opportunities } from "./data/opportunities";
 
 export default function Home() {
+  const requestId = useRef(0);
   const [story, setStory] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
@@ -17,9 +18,24 @@ export default function Home() {
   const [hasSearched, setHasSearched] = useState(false);
   const [source, setSource] = useState<"ai" | "fallback" | null>(null);
   const [error, setError] = useState("");
+  const [theme, setTheme] = useState<"day" | "dark">("day");
   const selectedOpportunityData = opportunities.find(
     (opportunity) => opportunity.id === selectedOpportunity
   );
+
+  function resetDemo() {
+    requestId.current += 1;
+    setStory("");
+    setSkills([]);
+    setSelectedSkill(null);
+    setSelectedOpportunity(null);
+    setVerifiedSkills([]);
+    setLoading(false);
+    setHasSearched(false);
+    setSource(null);
+    setError("");
+    setTheme("day");
+  }
 
   function handleVerified(skill: string) {
     setVerifiedSkills((current) =>
@@ -39,6 +55,7 @@ export default function Home() {
     setSkills([]);
     setHasSearched(false);
     setSource(null);
+    const activeRequestId = ++requestId.current;
 
     try {
       const response = await fetch("/api/translate-skills", {
@@ -55,10 +72,13 @@ export default function Home() {
         throw new Error(data.error || "Request failed");
       }
 
+      if (activeRequestId !== requestId.current) return;
+
       setSkills(Array.isArray(data.skills) ? data.skills : []);
       setSource(data.source);
       setHasSearched(true);
     } catch (error) {
+      if (activeRequestId !== requestId.current) return;
       console.error(error);
       setError(
         error instanceof Error
@@ -66,19 +86,30 @@ export default function Home() {
           : "Something went wrong. Please try again."
       );
     } finally {
-      setLoading(false);
+      if (activeRequestId === requestId.current) {
+        setLoading(false);
+      }
     }
   }
 
   return (
-    <main className="app-shell page-enter min-h-screen bg-[#F7F8F5] text-[#14251D]">
+    <main
+      className="app-shell page-enter min-h-screen bg-[#F7F8F5] text-[#14251D]"
+      data-theme={theme}
+    >
       {/* Top navigation */}
       <header className="border-b border-[#E3E8E3] bg-[#F7F8F5]">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 lg:px-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#006B4F] text-sm font-black tracking-tight text-white">
+            <button
+              type="button"
+              onClick={resetDemo}
+              aria-label="Reset demo to defaults"
+              title="Reset demo to defaults"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#006B4F] text-sm font-black tracking-tight text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#005941] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#00805E]/20"
+            >
               TN
-            </div>
+            </button>
 
             <div>
               <p className="text-lg font-black tracking-tight">Thuthuka Nathi</p>
@@ -88,9 +119,22 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#CDE5D9] bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#006B4F] sm:px-4">
-            <span className="h-2 w-2 rounded-full bg-[#00A878]" />
-            Interactive demo
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={() =>
+                setTheme((current) => (current === "day" ? "dark" : "day"))
+              }
+              aria-label={`Switch to ${theme === "day" ? "dark" : "day"} mode`}
+              aria-pressed={theme === "dark"}
+              className="rounded-full border border-[#CDE5D9] bg-white px-3 py-2 text-[11px] font-bold text-[#006B4F] transition duration-200 hover:-translate-y-0.5 hover:border-[#AFCFC2] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#00805E]/20 sm:px-4"
+            >
+              {theme === "day" ? "Dark mode" : "Day mode"}
+            </button>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#CDE5D9] bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#006B4F] sm:px-4">
+              <span className="h-2 w-2 rounded-full bg-[#00A878]" />
+              Interactive demo
+            </div>
           </div>
         </div>
       </header>
