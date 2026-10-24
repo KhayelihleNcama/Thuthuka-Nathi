@@ -44,8 +44,10 @@ export default function Home() {
     setSelectedSkill(null);
   }
 
-  async function translateSkills() {
-    if (!story.trim()) {
+  async function findSkills(input?: string) {
+    const storyText = input ?? story;
+
+    if (!storyText.trim()) {
       setError("Tell us about something you've done.");
       return;
     }
@@ -58,12 +60,12 @@ export default function Home() {
     const activeRequestId = ++requestId.current;
 
     try {
-      const response = await fetch("/api/translate-skills", {
+      const response = await fetch("/api/skills", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ story: story.trim() }),
+        body: JSON.stringify({ story: storyText.trim() }),
       });
 
       const data = await response.json();
@@ -195,7 +197,7 @@ export default function Home() {
                 )}
 
                 <button
-                  onClick={translateSkills}
+                  onClick={() => findSkills()}
                   disabled={loading || !story.trim()}
                   className="mt-5 flex w-full items-center justify-center gap-3 rounded-2xl bg-[#006B4F] px-5 py-4 text-sm font-bold text-white shadow-[0_8px_20px_rgba(0,107,79,0.22)] transition hover:bg-[#005941] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
                 >
@@ -217,23 +219,17 @@ export default function Home() {
             {/* Demo prompt */}
             {!skills.length && !loading && (
               <button
-                onClick={() =>
-                  setStory(
-                    "I helped my aunt at her stall. I served customers, counted the money and checked how much stock was left."
-                  )
-                }
-                className="reveal-delay-2 mt-4 flex w-full items-start gap-3 rounded-2xl border border-[#DDE5DF] bg-white p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-[#AFCFC2] hover:shadow-sm"
+                type="button"
+                onClick={() => {
+                  const demo =
+                    "I helped at my aunt's stall and tutored two kids in maths. I also taught myself Excel on YouTube.";
+                  setStory(demo);
+                  findSkills(demo);
+                }}
+                disabled={loading}
+                className="reveal-delay-2 mt-4 rounded-lg border border-teal-600 px-4 py-2 text-sm font-semibold text-teal-600 transition hover:bg-teal-50 disabled:opacity-40"
               >
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wide text-[#007A59]">
-                    See how the demo works
-                  </p>
-
-                  <p className="mt-1 text-sm leading-6 text-[#435149]">
-                    “I helped my aunt at her stall, served customers, counted
-                    money and checked stock.”
-                  </p>
-                </div>
+                Try demo: meet Thandi
               </button>
             )}
           </section>
